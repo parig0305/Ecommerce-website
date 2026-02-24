@@ -1,0 +1,330 @@
+{% extends 'base.html' %}
+{% block title %}{{ product.name }} - Pari kart{% endblock %}
+
+{% block extra_css %}
+<style>
+    .product-gallery {
+        position: sticky;
+        top: 100px;
+    }
+    .product-img-main {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    .product-thumbnails {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    .product-thumbnail {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.3s;
+    }
+    .product-thumbnail:hover,
+    .product-thumbnail.active {
+        border-color: var(--bs-primary);
+    }
+    .variant-btn {
+        border: 2px solid #dee2e6;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s;
+        background: white;
+    }
+    .variant-btn:hover {
+        border-color: var(--bs-primary);
+    }
+    .variant-btn.selected {
+        border-color: var(--bs-primary);
+        background: var(--bs-primary);
+        color: white;
+    }
+    .color-swatch {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 3px solid transparent;
+        transition: all 0.3s;
+    }
+    .color-swatch:hover,
+    .color-swatch.selected {
+        border-color: var(--bs-primary);
+        transform: scale(1.1);
+    }
+    .quantity-input {
+        width: 80px;
+        text-align: center;
+    }
+    .wishlist-btn {
+        transition: all 0.3s;
+    }
+    .wishlist-btn:hover {
+        transform: scale(1.05);
+    }
+    .stock-badge {
+        font-size: 0.85rem;
+    }
+    .related-product-card {
+        transition: all 0.3s;
+    }
+    .related-product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <!-- Product Image -->
+    <div class="col-lg-6 mb-4">
+        <div class="product-gallery">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" 
+                 class="product-img-main" id="mainImage">
+            {% else %}
+            <img src="https://via.placeholder.com/500x400?text=No+Image" 
+                 alt="{{ product.name }}" class="product-img-main" id="mainImage">
+            {% endif %}
+            
+            <!-- Wishlist Button -->
+            {% if user.is_authenticated %}
+            <a href="{% url 'add_to_wishlist' product.id %}" 
+               class="btn {% if in_wishlist %}btn-danger{% else %}btn-outline-danger{% endif %} 
+               wishlist-btn mt-3 w-100">
+                <i class="{% if in_wishlist %}fas{% else %}far{% endif %} fa-heart me-2"></i>
+                {% if in_wishlist %}Remove from Wishlist{% else %}Add to Wishlist{% endif %}
+            </a>
+            {% else %}
+            <a href="{% url 'login' %}?next={% url 'product_detail' product.id %}" 
+               class="btn btn-outline-danger mt-3 w-100">
+                <i class="far fa-heart me-2"></i>Add to Wishlist
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Product Details -->
+    <div class="col-lg-6">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'products' %}">Products</a></li>
+                <li class="breadcrumb-item active">{{ product.name }}</li>
+            </ol>
+        </nav>
+
+        <h2 class="mb-2">{{ product.name }}</h2>
+        
+        <!-- Category & Stock -->
+        <div class="d-flex align-items-center gap-3 mb-3">
+            <span class="badge bg-secondary">{{ product.category|title }}</span>
+            {% if selected_variant and selected_variant.stock > 0 %}
+            <span class="badge bg-success stock-badge">
+                <i class="fas fa-check-circle me-1"></i>In Stock ({{ selected_variant.stock }})
+            </span>
+            {% else %}
+            <span class="badge bg-danger stock-badge">
+                <i class="fas fa-times-circle me-1"></i>Out of Stock
+            </span>
+            {% endif %}
+        </div>
+
+        <!-- Price -->
+        <h3 class="text-success mb-4">₹{{ product.price }}</h3>
+
+        <!-- Description -->
+        <p class="text-muted mb-4">{{ product.description }}</p>
+
+        <!-- Add to Cart Form -->
+        <form method="POST" action="{% url 'add_to_cart' %}" id="addToCartForm">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+            <input type="hidden" name="variant_id" value="" id="selectedVariant">
+
+            <!-- Size Selection -->
+            {% if sizes %}
+            <div class="mb-4">
+                <label class="form-label fw-bold">Size:</label>
+                <div class="d-flex flex-wrap gap-2">
+                    {% for size in sizes %}
+                    <button type="button" class="variant-btn size-btn" 
+                            data-size="{{ size }}" onclick="selectSize('{{ size }}')">
+                        {{ size }}
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Color Selection -->
+            {% if colors %}
+            <div class="mb-4">
+                <label class="form-label fw-bold">Color:</label>
+                <div class="d-flex flex-wrap gap-2">
+                    {% for color in colors %}
+                    <button type="button" class="color-swatch" 
+                            data-color="{{ color }}" 
+                            style="background-color: {{ color }};"
+                            title="{{ color }}"
+                            onclick="selectColor('{{ color }}')">
+                    </button>
+                    {% endfor %}
+                </div>
+                <small class="text-muted" id="selectedColorName"></small>
+            </div>
+            {% endif %}
+
+            <!-- Quantity -->
+            <div class="mb-4">
+                <label class="form-label fw-bold">Quantity:</label>
+                <div class="d-flex align-items-center">
+                    <button type="button" class="btn btn-outline-secondary" 
+                            onclick="updateQuantity(-1)">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <input type="number" name="quantity" value="1" min="1" 
+                           max="{% if selected_variant %}{{ selected_variant.stock }}{% else %}10{% endif %}"
+                           class="form-control quantity-input mx-2" id="quantityInput">
+                    <button type="button" class="btn btn-outline-secondary" 
+                            onclick="updateQuantity(1)">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Add to Cart Button -->
+            <button type="submit" class="btn btn-success btn-lg w-100" 
+                    {% if not selected_variant and variants %}disabled{% endif %}>
+                <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+            </button>
+        </form>
+
+        <!-- Product Info -->
+        <div class="mt-4">
+            <div class="d-flex align-items-center text-muted small">
+                <i class="fas fa-truck me-2"></i>
+                <span>Free shipping on orders above ₹500</span>
+            </div>
+            <div class="d-flex align-items-center text-muted small mt-2">
+                <i class="fas fa-undo me-2"></i>
+                <span>Easy 30-day return policy</span>
+            </div>
+            <div class="d-flex align-items-center text-muted small mt-2">
+                <i class="fas fa-shield-alt me-2"></i>
+                <span>Secure payment with Razorpay/Stripe</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Related Products -->
+{% if related_products %}
+<div class="mt-5">
+    <h4 class="mb-4"><i class="fas fa-random me-2"></i>Related Products</h4>
+    <div class="row">
+        {% for related in related_products %}
+        <div class="col-md-3 col-6 mb-4">
+            <div class="card related-product-card h-100">
+                {% if related.image %}
+                <img src="{{ related.image.url }}" class="card-img-top" 
+                     alt="{{ related.name }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                <img src="https://via.placeholder.com/300x200?text=No+Image" 
+                     class="card-img-top" alt="{{ related.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <h6>{{ related.name }}</h6>
+                    <p class="text-success mb-1">₹{{ related.price }}</p>
+                    <a href="{% url 'product_detail' related.id %}" 
+                       class="btn btn-sm btn-outline-primary w-100">
+                        View Details
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let selectedSize = null;
+    let selectedColor = null;
+
+    function selectSize(size) {
+        selectedSize = size;
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.classList.remove('selected');
+            if (btn.dataset.size === size) {
+                btn.classList.add('selected');
+            }
+        });
+        updateSelectedVariant();
+    }
+
+    function selectColor(color) {
+        selectedColor = color;
+        document.querySelectorAll('.color-swatch').forEach(swatch => {
+            swatch.classList.remove('selected');
+            if (swatch.dataset.color === color) {
+                swatch.classList.add('selected');
+            }
+        });
+        document.getElementById('selectedColorName').textContent = color;
+        updateSelectedVariant();
+    }
+
+    function updateSelectedVariant() {
+        const variants = {{ variants|safe }};
+        const variantInput = document.getElementById('selectedVariant');
+        
+        for (let variant of variants) {
+            if (variant.size === selectedSize && variant.color === selectedColor) {
+                variantInput.value = variant.id;
+                break;
+            }
+        }
+    }
+
+    function updateQuantity(delta) {
+        const input = document.getElementById('quantityInput');
+        let value = parseInt(input.value) + delta;
+        value = Math.max(1, value);
+        input.value = value;
+    }
+
+    // Form validation - validate only the options that exist
+    document.getElementById('addToCartForm').addEventListener('submit', function(e) {
+        const variantsCount = {{ variants|length }};
+        {% if sizes %}
+        if (!selectedSize && variantsCount > 0) {
+            e.preventDefault();
+            alert('Please select a size');
+            return false;
+        }
+        {% endif %}
+        {% if colors %}
+        if (!selectedColor && variantsCount > 0) {
+            e.preventDefault();
+            alert('Please select a color');
+            return false;
+        }
+        {% endif %}
+    });
+</script>
+{% endblock %}

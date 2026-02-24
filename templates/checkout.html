@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% block title %}Checkout - Pari kart{% endblock %}
+
+{% block extra_css %}
+<style>
+    .checkout-steps {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+    }
+    .step {
+        flex: 1;
+        text-align: center;
+        padding: 10px;
+        position: relative;
+    }
+    .step::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: -50%;
+        width: 100%;
+        height: 2px;
+        background: #dee2e6;
+        z-index: 0;
+    }
+    .step:last-child::after {
+        display: none;
+    }
+    .step-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #dee2e6;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+    }
+    .step.active .step-icon {
+        background: #0d6efd;
+        color: white;
+    }
+    .step.completed .step-icon {
+        background: #198754;
+        color: white;
+    }
+    .payment-option {
+        border: 2px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    .payment-option:hover {
+        border-color: #0d6efd;
+    }
+    .payment-option.selected {
+        border-color: #0d6efd;
+        background-color: #f0f7ff;
+    }
+    .order-summary-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="checkout-steps">
+    <div class="step completed">
+        <div class="step-icon"><i class="fas fa-shopping-cart"></i></div>
+        <div class="mt-2">Cart</div>
+    </div>
+    <div class="step active">
+        <div class="step-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div class="mt-2">Details</div>
+    </div>
+    <div class="step">
+        <div class="step-icon"><i class="fas fa-credit-card"></i></div>
+        <div class="mt-2">Payment</div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Checkout Form -->
+    <div class="col-lg-8">
+        <form method="POST" action="{% url 'create_order' %}" id="checkoutForm">
+            {% csrf_token %}
+            
+            <!-- Shipping Address -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-shipping-fast me-2"></i>Shipping Address</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Full Name *</label>
+                            <input type="text" name="name" class="form-control" required
+                                   value="{{ user.get_full_name|default:'' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Phone Number *</label>
+                            <input type="tel" name="phone" class="form-control" required
+                                   value="{{ user.userprofile.phone|default:'' }}">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Email Address *</label>
+                        <input type="email" name="email" class="form-control" required
+                               value="{{ user.email|default:'' }}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Address *</label>
+                        <textarea name="address" class="form-control" rows="3" required
+                        >{{ user.userprofile.address|default:'' }}</textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">City</label>
+                            <input type="text" name="city" class="form-control">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">State</label>
+                            <input type="text" name="state" class="form-control">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">PIN Code</label>
+                            <input type="text" name="pincode" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-credit-card me-2"></i>Payment Method</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Razorpay -->
+                        <div class="col-md-6 mb-3">
+                            <div class="payment-option text-center" onclick="selectPayment('razorpay')">
+                                <input type="radio" name="payment_method" value="razorpay" id="razorpay" 
+                                       style="display: none;">
+                                <i class="fas fa-wallet fa-2x mb-2 text-primary"></i>
+                                <h6>Pay with Razorpay</h6>
+                                <small class="text-muted">Secure online payment</small>
+                            </div>
+                        </div>
+                        
+                        <!-- Stripe -->
+                        <div class="col-md-6 mb-3">
+                            <div class="payment-option text-center" onclick="selectPayment('stripe')">
+                                <input type="radio" name="payment_method" value="stripe" id="stripe"
+                                       style="display: none;">
+                                <i class="fas fa-credit-card fa-2x mb-2 text-info"></i>
+                                <h6>Pay with Stripe</h6>
+                                <small class="text-muted">Card payment</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cash on Delivery -->
+                    <div class="mb-3">
+                        <div class="payment-option" onclick="selectPayment('cod')">
+                            <input type="radio" name="payment_method" value="cod" id="cod"
+                                   style="display: none;">
+                            <i class="fas fa-money-bill-wave fa-lg me-3 text-success"></i>
+                            <span>Cash on Delivery</span>
+                            <small class="text-muted ms-2">(Pay when you receive)</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-lg w-100">
+                <i class="fas fa-lock me-2"></i>Place Order - ₹{{ total }}
+            </button>
+        </form>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="mb-0"><i class="fas fa-receipt me-2"></i>Order Summary</h5>
+            </div>
+            <div class="card-body">
+                {% for item in cart_items %}
+                <div class="order-summary-item">
+                    <div>
+                        <strong>{{ item.product.name }}</strong>
+                        {% if item.variant %}
+                        <br><small class="text-muted">{{ item.variant.size }} / {{ item.variant.color }}</small>
+                        {% endif %}
+                        <br><small>Qty: {{ item.quantity }}</small>
+                    </div>
+                    <span>₹{{ item.get_total }}</span>
+                </div>
+                {% endfor %}
+                
+                <div class="order-summary-item">
+                    <span>Subtotal</span>
+                    <span>₹{{ total }}</span>
+                </div>
+                <div class="order-summary-item">
+                    <span>Shipping</span>
+                    <span class="text-success">Free</span>
+                </div>
+                <div class="order-summary-item">
+                    <strong>Total</strong>
+                    <strong class="text-success">₹{{ total }}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function selectPayment(method) {
+        // Remove selected class from all options
+        document.querySelectorAll('.payment-option').forEach(opt => {
+            opt.classList.remove('selected');
+        });
+        
+        // Add selected class to clicked option
+        const selectedOption = document.querySelector(`[onclick="selectPayment('${method}')"]`);
+        selectedOption.classList.add('selected');
+        
+        // Check the radio button
+        document.getElementById(method).checked = true;
+    }
+
+    // Form validation
+    document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+        const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
+        if (!paymentMethod) {
+            e.preventDefault();
+            alert('Please select a payment method');
+            return false;
+        }
+    });
+</script>
+{% endblock %}

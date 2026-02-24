@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block title %}Order History - Pari kart{% endblock %}
+
+{% block extra_css %}
+<style>
+    .order-card {
+        transition: all 0.3s;
+        border: none;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .order-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+    .status-badge {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+    }
+    .order-item-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-12">
+        <h2 class="mb-4"><i class="fas fa-box me-2"></i>My Orders</h2>
+        
+        {% if orders %}
+        <div class="row">
+            {% for order in orders %}
+            <div class="col-lg-6 mb-4">
+                <div class="card order-card">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">Order #{{ order.order_id }}</h6>
+                            <small class="text-muted">
+                                <i class="fas fa-calendar me-1"></i>
+                                {{ order.created_at|date:"d M Y, h:i A" }}
+                            </small>
+                        </div>
+                        <span class="badge bg-{% if order.status == 'delivered' %}success{% elif order.status == 'cancelled' %}danger{% elif order.status == 'shipped' %}info{% else %}warning{% endif %} status-badge">
+                            {{ order.get_status_display|title }}
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <!-- Order Items Preview -->
+                        <div class="d-flex mb-3">
+                            {% for item in order.items.all|slice:":3" %}
+                            {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" 
+                                 class="order-item-img me-2">
+                            {% else %}
+                            <img src="https://via.placeholder.com/60?text=No+Image" 
+                                 alt="{{ item.product.name }}" class="order-item-img me-2">
+                            {% endif %}
+                            {% endfor %}
+                            {% if order.items.count > 3 %}
+                            <span class="align-self-center text-muted">
+                                +{{ order.items.count|add:"-3" }} more
+                            </span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Total: ₹{{ order.total_price }}</strong>
+                                <br>
+                                <small class="text-muted">
+                                    {% if order.payment_status == 'completed' %}
+                                    <i class="fas fa-check-circle text-success me-1"></i>Paid
+                                    {% else %}
+                                    <i class="fas fa-clock text-warning me-1"></i>Pending Payment
+                                    {% endif %}
+                                </small>
+                            </div>
+                            <div>
+                                <a href="{% url 'order_detail' order.order_id %}" 
+                                   class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-eye me-1"></i>View Details
+                                </a>
+                                <a href="{% url 'download_invoice' order.order_id %}" 
+                                   class="btn btn-outline-success btn-sm">
+                                    <i class="fas fa-download me-1"></i>Invoice
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if orders.has_other_pages %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if orders.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ orders.previous_page_number }}">Previous</a>
+                </li>
+                {% endif %}
+                
+                {% for num in orders.paginator.page_range %}
+                <li class="page-item {% if orders.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endfor %}
+                
+                {% if orders.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ orders.next_page_number }}">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+        
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-box-open fa-4x text-muted mb-3"></i>
+            <h4>No orders yet</h4>
+            <p class="text-muted">Once you place an order, it will appear here.</p>
+            <a href="{% url 'home' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-shopping-bag me-2"></i>Start Shopping
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

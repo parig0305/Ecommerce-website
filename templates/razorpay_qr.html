@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Razorpay QR - Pari kart{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h3>Scan to Pay</h3>
+    <p class="text-muted">Order: {{ order.order_id }} — Amount: ₹{{ order.total_price }}</p>
+    <div class="my-4">
+        <img src="data:image/png;base64,{{ qr_b64 }}" alt="QR Code">
+    </div>
+    <p>
+        <a href="{{ pay_url }}" class="btn btn-primary" target="_blank">Open Payment Link</a>
+    </p>
+    <p class="text-muted small mt-3">You can also pay using UPI ID: <strong>{{ settings.RAZORPAY_UPI_ID|default:'Not configured' }}</strong></p>
+</div>
+{% endblock %}

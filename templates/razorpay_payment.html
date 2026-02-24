@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}Razorpay Payment - Pari kart{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h3>Proceeding to Razorpay Payment</h3>
+    <p class="text-muted">Order: {{ order.order_id }} — Amount: ₹{{ order.total_price }}</p>
+    <button id="rzp-button" class="btn btn-primary btn-lg">Pay Now</button>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    const options = {
+        "key": "{{ razorpay_key }}", // Enter the Key ID generated from the Dashboard
+        "amount": {{ razorpay_order.amount }}, // amount in the smallest currency unit
+        "currency": "INR",
+        "name": "Pari kart",
+        "description": `Order {{ order.order_id }}`,
+        "order_id": "{{ razorpay_order.id }}", //This is a sample Order ID. Pass the `id` obtained in the response of create order.
+        "handler": function (response){
+            // On successful payment, post details to server-side callback to verify signature
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = "{% url 'razorpay_callback' %}";
+
+            const csrfToken = '{{ csrf_token }}';
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrfmiddlewaretoken';
+            csrfInput.value = csrfToken;
+            form.appendChild(csrfInput);
+
+            const paymentId = document.createElement('input');
+            paymentId.type = 'hidden';
+            paymentId.name = 'razorpay_payment_id';
+            paymentId.value = response.razorpay_payment_id;
+            form.appendChild(paymentId);
+
+            const orderId = document.createElement('input');
+            orderId.type = 'hidden';
+            orderId.name = 'razorpay_order_id';
+            orderId.value = response.razorpay_order_id;
+            form.appendChild(orderId);
+
+            const signature = document.createElement('input');
+            signature.type = 'hidden';
+            signature.name = 'razorpay_signature';
+            signature.value = response.razorpay_signature;
+            form.appendChild(signature);
+
+            document.body.appendChild(form);
+            form.submit();
+        },
+        "prefill": {
+            "email": "{{ request.user.email }}",
+            "name": "{{ request.user.get_full_name|default:request.user.username }}"
+        },
+        "theme": {
+            "color": "#0d6efd"
+        }
+    };
+
+    document.getElementById('rzp-button').addEventListener('click', function(e){
+        const rzp1 = new Razorpay(options);
+        rzp1.open();
+        e.preventDefault();
+    });
+</script>
+{% endblock %}

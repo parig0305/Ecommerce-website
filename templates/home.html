@@ -1,0 +1,263 @@
+{% extends 'base.html' %}
+{% block title %}Pari kart - Online Shopping{% endblock %}
+
+{% block extra_css %}
+<style>
+    .product-card {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    .product-card .card-img-top {
+        height: 250px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    .product-card:hover .card-img-top {
+        transform: scale(1.05);
+    }
+    .product-image-container {
+        overflow: hidden;
+        position: relative;
+    }
+    .product-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: all 0.3s;
+    }
+    .product-card:hover .product-overlay {
+        opacity: 1;
+    }
+    .category-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 1;
+    }
+    .filter-section {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .filter-title {
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #333;
+    }
+    .filter-option {
+        display: block;
+        padding: 8px 12px;
+        border-radius: 5px;
+        color: #555;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+    .filter-option:hover, .filter-option.active {
+        background: #f0f7ff;
+        color: #0d6efd;
+    }
+    .sort-select {
+        border-radius: 20px;
+        padding: 8px 16px;
+    }
+    .search-box {
+        border-radius: 25px;
+        padding: 10px 20px;
+        border: 2px solid #dee2e6;
+    }
+    .search-box:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+    }
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 20px;
+        padding: 40px;
+        margin-bottom: 40px;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+{% if not search_query and not category_filter %}
+<div class="hero-section">
+    <div class="row align-items-center">
+        <div class="col-lg-7">
+            <h1 class="display-4 fw-bold mb-3">Welcome to Pari kart</h1>
+            <p class="lead mb-4">Discover amazing products at unbeatable prices. Shop now and enjoy exclusive deals!</p>
+            <a href="#products" class="btn btn-light btn-lg">
+                <i class="fas fa-shopping-bag me-2"></i>Shop Now
+            </a>
+        </div>
+        <div class="col-lg-5 text-lg-end d-none d-lg-block">
+            <i class="fas fa-shopping-cart fa-10x opacity-25"></i>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Search and Filter Bar -->
+<div class="row mb-4">
+    <div class="col-md-8">
+        <form method="GET" action="{% url 'home' %}" class="d-flex">
+            {% if category_filter %}
+            <input type="hidden" name="category" value="{{ category_filter }}">
+            {% endif %}
+            <input type="text" name="search" class="form-control search-box me-2" 
+                   placeholder="Search products..." value="{{ search_query }}">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <select class="form-select sort-select" onchange="window.location.href = this.value">
+                <option value="{% url 'home' %}?{% if search_query %}search={{ search_query }}&{% endif %}{% if category_filter %}category={{ category_filter }}&{% endif %}sort=-created_at" 
+                    {% if sort_by == '-created_at' %}selected{% endif %}>Newest First</option>
+            <option value="{% url 'home' %}?{% if search_query %}search={{ search_query }}&{% endif %}{% if category_filter %}category={{ category_filter }}&{% endif %}sort=price" 
+                    {% if sort_by == 'price' %}selected{% endif %}>Price: Low to High</option>
+            <option value="{% url 'home' %}?{% if search_query %}search={{ search_query }}&{% endif %}{% if category_filter %}category={{ category_filter }}&{% endif %}sort=-price" 
+                    {% if sort_by == '-price' %}selected{% endif %}>Price: High to Low</option>
+            <option value="{% url 'home' %}?{% if search_query %}search={{ search_query }}&{% endif %}{% if category_filter %}category={{ category_filter }}&{% endif %}sort=name" 
+                    {% if sort_by == 'name' %}selected{% endif %}>Name: A-Z</option>
+        </select>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Sidebar Filters -->
+    <div class="col-lg-3 mb-4">
+        <div class="filter-section">
+            <h6 class="filter-title">
+                <i class="fas fa-filter me-2"></i>Filters
+            </h6>
+            
+            <!-- Categories -->
+            <div class="mb-4">
+                <h7 class="fw-bold">Categories</h7>
+                <div class="list-group list-group-flush mt-2">
+                    <a href="{% url 'home' %}" 
+                       class="filter-option list-group-item {% if not category_filter %}active{% endif %}">
+                        All Products
+                    </a>
+                    {% for category in categories %}
+                    <a href="{% url 'home' %}?category={{ category }}" 
+                       class="filter-option list-group-item {% if category_filter == category %}active{% endif %}">
+                        {{ category|title }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Price Range (Static for now) -->
+            <div>
+                <h7 class="fw-bold">Price Range</h7>
+                <div class="mt-2">
+                    <a href="#" class="filter-option">Under ₹500</a>
+                    <a href="#" class="filter-option">₹500 - ₹1000</a>
+                    <a href="#" class="filter-option">₹1000 - ₹2000</a>
+                    <a href="#" class="filter-option">Above ₹2000</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="col-lg-9" id="products">
+        {% if search_query or category_filter %}
+        <div class="alert alert-info mb-4">
+            <i class="fas fa-info-circle me-2"></i>
+            {% if search_query %}Showing results for "{{ search_query }}"{% endif %}
+            {% if category_filter %} in {{ category_filter|title }}{% endif %}
+            <a href="{% url 'home' %}" class="alert-link float-end">Clear filters</a>
+        </div>
+        {% endif %}
+
+        <h4 class="mb-4">
+            {% if category_filter %}{{ category_filter|title }}{% else %}All Products{% endif %}
+            <span class="text-muted fs-6">({{ products.count }} products)</span>
+        </h4>
+
+        {% if products %}
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card product-card h-100">
+                    <div class="product-image-container">
+                        <!-- Category Badge -->
+                        <span class="badge bg-secondary category-badge">{{ product.category|title }}</span>
+                        
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        {% else %}
+                        <img src="https://via.placeholder.com/300x250?text=No+Image" 
+                             class="card-img-top" alt="{{ product.name }}">
+                        {% endif %}
+                        
+                        <!-- Quick View Overlay -->
+                        <div class="product-overlay">
+                            <a href="{% url 'product_detail' product.id %}" 
+                               class="btn btn-light">
+                                <i class="fas fa-eye me-1"></i> Quick View
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text text-muted small">
+                            {{ product.description|truncatewords:15 }}
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 text-success mb-0">₹{{ product.price }}</span>
+                            <span class="text-muted small">
+                                {% if product.variants.exists %}
+                                {{ product.variants.count }} variants
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer bg-white border-top-0">
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'product_detail' product.id %}" 
+                               class="btn btn-outline-primary">
+                                <i class="fas fa-info-circle me-1"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-search fa-4x text-muted mb-3"></i>
+            <h4>No products found</h4>
+            <p class="text-muted">Try adjusting your search or filter criteria.</p>
+            <a href="{% url 'home' %}" class="btn btn-primary">
+                <i class="fas fa-home me-2"></i>Back to Home
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
