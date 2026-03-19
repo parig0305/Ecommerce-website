@@ -12,15 +12,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
-from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Load .env file from project root (optional, for local dev)
-_env_path = os.path.join(BASE_DIR, '.env')
-if os.path.exists(_env_path):
-    load_dotenv(_env_path)
 
 
 # Quick-start development settings - unsuitable for production
@@ -30,7 +24,7 @@ if os.path.exists(_env_path):
 SECRET_KEY = 'django-insecure-q=rbs5f$^==rrgbtpyeyri!am+*lu*35$s-c_&is)-xa!pr#%4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -56,6 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -134,6 +129,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Media files
@@ -152,11 +148,9 @@ REST_FRAMEWORK = {
     ),
 }
 
-# Razorpay Configuration - read from environment for safety
-# Set these in your environment (see README_RAZORPAY.md)
-RAZORPAY_KEY_ID = os.getenv('RAZORPAY_KEY_ID', '')
-RAZORPAY_KEY_SECRET = os.getenv('RAZORPAY_KEY_SECRET', '')
-RAZORPAY_UPI_ID = os.getenv('RAZORPAY_UPI_ID', '')
+# Razorpay Configuration
+RAZORPAY_KEY_ID = "your_key_id"
+RAZORPAY_KEY_SECRET = "your_key_secret"
 
 # Stripe Configuration
 STRIPE_PUBLISHABLE_KEY = "your_stripe_publishable_key"
@@ -164,7 +158,7 @@ STRIPE_SECRET_KEY = "your_stripe_secret_key"
 
 # Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'noreply@parikart.com'
+DEFAULT_FROM_EMAIL = 'noreply@parishop.com'
 
 # Login URLs
 LOGIN_URL = 'login'

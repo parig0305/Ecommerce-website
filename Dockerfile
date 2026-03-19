@@ -23,5 +23,5 @@ RUN python manage.py collectstatic --noinput || true
 # Expose
 EXPOSE 8000
 
-# Run (default) - use gunicorn
-CMD ["gunicorn", "ecommerce.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
+# Run (default) - use gunicorn. On Render the port is provided in $PORT
+CMD ["/bin/sh", "-c", "gunicorn ecommerce.wsgi:application --bind 0.0.0.0:$PORT --workers 3"]
