@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Razorpay Payment - Pari kart{% endblock %}
+{% block title %}Razorpay Payment - DripShop{% endblock %}
 
 {% block content %}
 <div class="text-center py-5">
@@ -16,7 +16,7 @@
         "key": "{{ razorpay_key }}", // Enter the Key ID generated from the Dashboard
         "amount": {{ razorpay_order.amount }}, // amount in the smallest currency unit
         "currency": "INR",
-        "name": "Pari kart",
+        "name": "DripShop",
         "description": `Order {{ order.order_id }}`,
         "order_id": "{{ razorpay_order.id }}", //This is a sample Order ID. Pass the `id` obtained in the response of create order.
         "handler": function (response){
