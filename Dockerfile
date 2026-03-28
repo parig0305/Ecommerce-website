@@ -23,5 +23,5 @@ RUN python manage.py collectstatic --noinput || true
 # Expose
 EXPOSE 8000
 
-# Run (default) - use gunicorn. On Render the port is provided in $PORT
-CMD ["/bin/sh", "-c", "gunicorn ecommerce.wsgi:application --bind 0.0.0.0:$PORT --workers 3"]
+# Run (default) - automate migrations, create superuser if missing, then start gunicorn
+CMD ["/bin/sh", "-c", "python manage.py migrate && python manage.py shell -c \"from django.contrib.auth.models import User; User.objects.filter(username='admin').exists() or User.objects.create_superuser('admin', 'admin@email.com', 'Admin@123!!')\" && gunicorn ecommerce.wsgi:application --bind 0.0.0.0:$PORT --workers 3"]
