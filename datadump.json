@@ -1,0 +1,965 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$0ELkfh20EqhgSxDfoOKqOS$GKN6mIr+cwAFRYldU++YmypvxBkFCZDeNAak8JWKm3s=",
+    "last_login": "2026-03-28T22:48:26.332Z",
+    "is_superuser": true,
+    "username": "krishabhgupta",
+    "first_name": "",
+    "last_name": "",
+    "email": "krishabhgupta289@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-02-21T08:02:02.542Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$DSXY64BY62Y2iII4Oi07QO$PlSYHQp+1X73wZUXpScSSDIZPXTR8wuO8hA1U5jNAqM=",
+    "last_login": "2026-02-24T15:43:34.506Z",
+    "is_superuser": false,
+    "username": "testuser",
+    "first_name": "",
+    "last_name": "",
+    "email": "testuser@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-24T15:43:01.883Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$gWlLIVPq0kbjZaxWVi67nT$DBOo/KWoyHOgEueR05EPNFaYt8KXU3CpGc+yVeoowZ8=",
+    "last_login": "2026-02-26T04:22:54.291Z",
+    "is_superuser": false,
+    "username": "krishabh",
+    "first_name": "",
+    "last_name": "",
+    "email": "kishujain97@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-24T16:00:49.223Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.userprofile",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "phone": "",
+    "address": "",
+    "created_at": "2026-02-24T15:46:59.418Z",
+    "updated_at": "2026-02-24T15:46:59.418Z"
+  }
+},
+{
+  "model": "accounts.userprofile",
+  "pk": 2,
+  "fields": {
+    "user": 3,
+    "phone": "08709167289",
+    "address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "created_at": "2026-02-24T16:00:49.797Z",
+    "updated_at": "2026-02-24T16:00:49.797Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 1,
+  "fields": {
+    "name": "Nike Running Shoes",
+    "description": "Lightweight breathable running shoes",
+    "price": "2999.00",
+    "category": "Shoes",
+    "image": "products/5324c8eNike-HJ1102-700_1_UU8Bus6.avif",
+    "created_at": "2026-02-24T15:39:54.513Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 2,
+  "fields": {
+    "name": "Nike Pegasus 41",
+    "description": "Men's Road Running Shoes",
+    "price": "11895.00",
+    "category": "Shoes",
+    "image": "products/5324c8eNike-FD2722-016_1.avif",
+    "created_at": "2026-02-24T15:39:54.513Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 3,
+  "fields": {
+    "name": "Nike Winflo 11",
+    "description": "Men's Road Running Shoes",
+    "price": "8695.00",
+    "category": "Shoes",
+    "image": "products/5324c8eNike-FD2722-016_1_OnN2UJh.avif",
+    "created_at": "2026-02-24T15:39:54.513Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 4,
+  "fields": {
+    "name": "Nike Winflo 11",
+    "description": "Men's Road Running Shoes",
+    "price": "8695.00",
+    "category": "Shoes",
+    "image": "products/5324c8eNike-FJ9509-002_1.avif",
+    "created_at": "2026-02-24T15:39:54.513Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 5,
+  "fields": {
+    "name": "Men's CasMen's Casual T-Shirtual T-Shirt",
+    "description": "Men's Casual T-Shirt",
+    "price": "799.00",
+    "category": "Clothing",
+    "image": "products/shopping.webp",
+    "created_at": "2026-02-24T15:39:54.513Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 6,
+  "fields": {
+    "name": "Graphic t-shirts",
+    "description": "Men Black Graphic Print Round Crew Neck T-shirt",
+    "price": "1299.00",
+    "category": "Clothing",
+    "image": "products/40236252-25261116.avif",
+    "created_at": "2026-02-24T15:39:54.513Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 7,
+  "fields": {
+    "name": "Polo t-shirts",
+    "description": "Men Green Print Polo Neck T-shirt",
+    "price": "799.00",
+    "category": "Clothing",
+    "image": "products/39832288-16604861.avif",
+    "created_at": "2026-02-24T15:39:54.513Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 8,
+  "fields": {
+    "name": "Smart Watch Pro",
+    "description": "Fitness tracking smartwatch",
+    "price": "4999.00",
+    "category": "Electronics",
+    "image": "products/51EqcQnv7BL.jpg",
+    "created_at": "2026-02-24T15:39:54.513Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 9,
+  "fields": {
+    "name": "Fastrack",
+    "description": "Styler FS1 Pro 1.97 AMOLED Display AOD Functional Crown BT Calling IP68 Smart Watch",
+    "price": "2499.00",
+    "category": "Electronics",
+    "image": "products/51EqcQnv7BL_iSQnctu.jpg",
+    "created_at": "2026-02-24T15:39:54.513Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 10,
+  "fields": {
+    "name": "Nike Shoes",
+    "description": "Premium running shoes",
+    "price": "2999.00",
+    "category": "Shoes",
+    "image": "products/f7a5f36553558-400_1.avif",
+    "created_at": "2026-02-24T15:39:54.513Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 11,
+  "fields": {
+    "name": "Casual T-Shirt",
+    "description": "Comfort cotton t-shirt",
+    "price": "799.00",
+    "category": "Clothing",
+    "image": "products/menswear_catalogue18629.webp",
+    "created_at": "2026-02-24T15:39:54.513Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 12,
+  "fields": {
+    "name": "Bracelet",
+    "description": "Men Black Bracelet",
+    "price": "99.99",
+    "category": "Accessories",
+    "image": "products/shopping_2.webp",
+    "created_at": "2026-02-24T15:43:02.317Z"
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 1,
+  "fields": {
+    "product": 1,
+    "size": "7",
+    "color": "black",
+    "stock": 25
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 2,
+  "fields": {
+    "product": 1,
+    "size": "8",
+    "color": "yellow",
+    "stock": 25
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 3,
+  "fields": {
+    "product": 1,
+    "size": "9",
+    "color": "white",
+    "stock": 25
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 4,
+  "fields": {
+    "product": 10,
+    "size": "8",
+    "color": "Black",
+    "stock": 10
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 5,
+  "fields": {
+    "product": 10,
+    "size": "9",
+    "color": "White",
+    "stock": 15
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 6,
+  "fields": {
+    "product": 11,
+    "size": "M",
+    "color": "Blue",
+    "stock": 20
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 7,
+  "fields": {
+    "product": 11,
+    "size": "L",
+    "color": "Black",
+    "stock": 30
+  }
+},
+{
+  "model": "products.productvariant",
+  "pk": 9,
+  "fields": {
+    "product": 12,
+    "size": "Free",
+    "color": "Black",
+    "stock": 69
+  }
+},
+{
+  "model": "cart.cart",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "session_key": null,
+    "created_at": "2026-02-24T15:43:34.826Z",
+    "updated_at": "2026-02-24T15:43:34.826Z"
+  }
+},
+{
+  "model": "cart.cart",
+  "pk": 2,
+  "fields": {
+    "user": 1,
+    "session_key": null,
+    "created_at": "2026-02-24T15:45:40.421Z",
+    "updated_at": "2026-02-24T15:45:40.421Z"
+  }
+},
+{
+  "model": "cart.cart",
+  "pk": 3,
+  "fields": {
+    "user": null,
+    "session_key": "8xbe5za5vav0l9fpvucmpox5xnvis02v",
+    "created_at": "2026-02-24T15:47:20.184Z",
+    "updated_at": "2026-02-24T15:47:20.184Z"
+  }
+},
+{
+  "model": "cart.cart",
+  "pk": 4,
+  "fields": {
+    "user": 3,
+    "session_key": null,
+    "created_at": "2026-02-24T16:01:10.124Z",
+    "updated_at": "2026-02-24T16:01:10.124Z"
+  }
+},
+{
+  "model": "cart.cart",
+  "pk": 5,
+  "fields": {
+    "user": null,
+    "session_key": "x8mog9gd640rfqexz51f4x7ptyoabrc9",
+    "created_at": "2026-02-24T18:35:39.569Z",
+    "updated_at": "2026-02-24T18:35:39.569Z"
+  }
+},
+{
+  "model": "cart.cart",
+  "pk": 6,
+  "fields": {
+    "user": null,
+    "session_key": "cxu1vngmfiu9ayp7fxnbaiab5xttulh5",
+    "created_at": "2026-02-24T19:58:25.896Z",
+    "updated_at": "2026-02-24T19:58:25.896Z"
+  }
+},
+{
+  "model": "cart.cart",
+  "pk": 7,
+  "fields": {
+    "user": null,
+    "session_key": "l7tdeumpr60xookmg645vnlfdose1zke",
+    "created_at": "2026-02-26T04:22:32.710Z",
+    "updated_at": "2026-02-26T04:22:32.710Z"
+  }
+},
+{
+  "model": "cart.cart",
+  "pk": 8,
+  "fields": {
+    "user": null,
+    "session_key": "nx1s7k7p1piyw06hhxty170nwa955c05",
+    "created_at": "2026-03-19T05:19:18.555Z",
+    "updated_at": "2026-03-19T05:19:18.555Z"
+  }
+},
+{
+  "model": "cart.cart",
+  "pk": 9,
+  "fields": {
+    "user": null,
+    "session_key": "esr099ebk47rl202ybk5gbie7wq1w8xp",
+    "created_at": "2026-03-28T22:47:33.241Z",
+    "updated_at": "2026-03-28T22:47:33.241Z"
+  }
+},
+{
+  "model": "cart.cart",
+  "pk": 10,
+  "fields": {
+    "user": null,
+    "session_key": "8owjf9hgjhg2ct8mqa3u7wl3wnzgbzn7",
+    "created_at": "2026-03-28T22:52:30.614Z",
+    "updated_at": "2026-03-28T22:52:30.614Z"
+  }
+},
+{
+  "model": "cart.cart",
+  "pk": 11,
+  "fields": {
+    "user": null,
+    "session_key": "963e5g6ljqyzbwhwt8xqhynzc10il6gk",
+    "created_at": "2026-04-08T09:31:51.121Z",
+    "updated_at": "2026-04-08T09:31:51.121Z"
+  }
+},
+{
+  "model": "cart.cartitem",
+  "pk": 3,
+  "fields": {
+    "cart": 3,
+    "product": 6,
+    "variant": null,
+    "quantity": 2,
+    "created_at": "2026-02-24T15:58:45.024Z"
+  }
+},
+{
+  "model": "cart.wishlist",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "product": 3,
+    "created_at": "2026-02-24T16:31:33.045Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "order_id": "ORD-MEVW5SXQ",
+    "total_price": "199.98",
+    "status": "pending",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "cod",
+    "shipping_address": "123 Test St",
+    "phone": "9999999999",
+    "created_at": "2026-02-24T15:43:34.889Z",
+    "updated_at": "2026-02-24T15:43:34.903Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 2,
+  "fields": {
+    "user": 1,
+    "order_id": "ORD-5708CQS6",
+    "total_price": "8695.00",
+    "status": "pending",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "razorpay",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "08709167289",
+    "created_at": "2026-02-24T15:46:08.165Z",
+    "updated_at": "2026-02-24T15:46:08.165Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 3,
+  "fields": {
+    "user": 3,
+    "order_id": "ORD-1BTE8VNU",
+    "total_price": "17390.00",
+    "status": "pending",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "razorpay",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "08709167289",
+    "created_at": "2026-02-24T16:02:56.323Z",
+    "updated_at": "2026-02-24T16:02:56.323Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 4,
+  "fields": {
+    "user": 3,
+    "order_id": "ORD-BHYZCMH1",
+    "total_price": "18189.00",
+    "status": "pending",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "stripe",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "08709167289",
+    "created_at": "2026-02-24T16:22:06.764Z",
+    "updated_at": "2026-02-24T16:22:06.764Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 5,
+  "fields": {
+    "user": 3,
+    "order_id": "ORD-YY1L6IIE",
+    "total_price": "1299.00",
+    "status": "pending",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "cod",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "08709167289",
+    "created_at": "2026-02-24T16:28:18.270Z",
+    "updated_at": "2026-02-24T16:28:18.280Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 6,
+  "fields": {
+    "user": 3,
+    "order_id": "ORD-LS5D3F0Y",
+    "total_price": "8695.00",
+    "status": "pending",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "cod",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "08709167289",
+    "created_at": "2026-02-24T16:45:09.346Z",
+    "updated_at": "2026-02-24T16:45:09.369Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 7,
+  "fields": {
+    "user": 1,
+    "order_id": "ORD-TWJR5DM3",
+    "total_price": "8695.00",
+    "status": "cancelled",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "razorpay",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "08709167289",
+    "created_at": "2026-02-24T17:42:18.230Z",
+    "updated_at": "2026-02-24T17:43:06.352Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 8,
+  "fields": {
+    "user": 1,
+    "order_id": "ORD-LZ932JEU",
+    "total_price": "799.00",
+    "status": "pending",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "razorpay",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "08709167289",
+    "created_at": "2026-02-24T17:44:30.282Z",
+    "updated_at": "2026-02-24T17:44:30.282Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 9,
+  "fields": {
+    "user": 1,
+    "order_id": "ORD-O5YVG2GF",
+    "total_price": "8695.00",
+    "status": "cancelled",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "razorpay",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "08709167289",
+    "created_at": "2026-02-24T17:45:37.628Z",
+    "updated_at": "2026-02-24T17:52:43.830Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 10,
+  "fields": {
+    "user": 1,
+    "order_id": "ORD-ZQW7WNF8",
+    "total_price": "8695.00",
+    "status": "cancelled",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "razorpay",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "08709167289",
+    "created_at": "2026-02-24T17:52:13.545Z",
+    "updated_at": "2026-02-24T17:52:38.361Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 11,
+  "fields": {
+    "user": 1,
+    "order_id": "ORD-Y631KV5H",
+    "total_price": "1299.00",
+    "status": "pending",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "razorpay",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "08709167289",
+    "created_at": "2026-02-24T17:59:39.968Z",
+    "updated_at": "2026-02-24T17:59:39.968Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 12,
+  "fields": {
+    "user": 1,
+    "order_id": "ORD-RZGX8WB3",
+    "total_price": "799.00",
+    "status": "cancelled",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "razorpay",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "06202048971",
+    "created_at": "2026-02-24T18:00:17.049Z",
+    "updated_at": "2026-02-24T18:00:33.796Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 13,
+  "fields": {
+    "user": 1,
+    "order_id": "ORD-JZV50WX6",
+    "total_price": "8695.00",
+    "status": "cancelled",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "razorpay",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "08709167289",
+    "created_at": "2026-02-24T18:03:52.356Z",
+    "updated_at": "2026-02-24T18:04:01.771Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 14,
+  "fields": {
+    "user": 3,
+    "order_id": "ORD-7CUDX6PR",
+    "total_price": "8695.00",
+    "status": "pending",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "stripe",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "08709167289",
+    "created_at": "2026-02-24T19:53:12.070Z",
+    "updated_at": "2026-02-24T19:53:12.070Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 15,
+  "fields": {
+    "user": 3,
+    "order_id": "ORD-9JDJEA62",
+    "total_price": "8695.00",
+    "status": "pending",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "cod",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "08709167289",
+    "created_at": "2026-02-26T04:23:08.374Z",
+    "updated_at": "2026-02-26T04:23:08.390Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 16,
+  "fields": {
+    "user": 1,
+    "order_id": "ORD-6GC600C9",
+    "total_price": "4999.00",
+    "status": "pending",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "razorpay",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "08709167289",
+    "created_at": "2026-03-19T18:20:04.760Z",
+    "updated_at": "2026-03-19T18:20:04.760Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 17,
+  "fields": {
+    "user": 1,
+    "order_id": "ORD-ISF3TH2J",
+    "total_price": "86950.00",
+    "status": "pending",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "razorpay",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "08709167289",
+    "created_at": "2026-03-19T18:30:07.427Z",
+    "updated_at": "2026-03-19T18:30:07.427Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 18,
+  "fields": {
+    "user": 1,
+    "order_id": "ORD-Y2X8T0C3",
+    "total_price": "17390.00",
+    "status": "pending",
+    "payment_id": null,
+    "razorpay_order_id": null,
+    "payment_status": "pending",
+    "payment_method": "razorpay",
+    "shipping_address": "Unimall, Lovely Professional University, Phagwara, Gate No. 2, 144411",
+    "phone": "08709167289",
+    "created_at": "2026-03-19T18:41:11.098Z",
+    "updated_at": "2026-03-19T18:41:11.098Z"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 2,
+  "fields": {
+    "order": 2,
+    "product": 3,
+    "variant": null,
+    "quantity": 1,
+    "price": "8695.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 3,
+  "fields": {
+    "order": 3,
+    "product": 3,
+    "variant": null,
+    "quantity": 2,
+    "price": "8695.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 4,
+  "fields": {
+    "order": 4,
+    "product": 3,
+    "variant": null,
+    "quantity": 1,
+    "price": "8695.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 5,
+  "fields": {
+    "order": 4,
+    "product": 4,
+    "variant": null,
+    "quantity": 1,
+    "price": "8695.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 6,
+  "fields": {
+    "order": 4,
+    "product": 5,
+    "variant": null,
+    "quantity": 1,
+    "price": "799.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 7,
+  "fields": {
+    "order": 5,
+    "product": 6,
+    "variant": null,
+    "quantity": 1,
+    "price": "1299.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 8,
+  "fields": {
+    "order": 6,
+    "product": 4,
+    "variant": null,
+    "quantity": 1,
+    "price": "8695.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 9,
+  "fields": {
+    "order": 7,
+    "product": 4,
+    "variant": null,
+    "quantity": 1,
+    "price": "8695.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 10,
+  "fields": {
+    "order": 8,
+    "product": 7,
+    "variant": null,
+    "quantity": 1,
+    "price": "799.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 11,
+  "fields": {
+    "order": 9,
+    "product": 3,
+    "variant": null,
+    "quantity": 1,
+    "price": "8695.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 12,
+  "fields": {
+    "order": 10,
+    "product": 3,
+    "variant": null,
+    "quantity": 1,
+    "price": "8695.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 13,
+  "fields": {
+    "order": 11,
+    "product": 6,
+    "variant": null,
+    "quantity": 1,
+    "price": "1299.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 14,
+  "fields": {
+    "order": 12,
+    "product": 7,
+    "variant": null,
+    "quantity": 1,
+    "price": "799.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 15,
+  "fields": {
+    "order": 13,
+    "product": 3,
+    "variant": null,
+    "quantity": 1,
+    "price": "8695.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 16,
+  "fields": {
+    "order": 14,
+    "product": 3,
+    "variant": null,
+    "quantity": 1,
+    "price": "8695.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 17,
+  "fields": {
+    "order": 15,
+    "product": 3,
+    "variant": null,
+    "quantity": 1,
+    "price": "8695.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 18,
+  "fields": {
+    "order": 16,
+    "product": 8,
+    "variant": null,
+    "quantity": 1,
+    "price": "4999.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 19,
+  "fields": {
+    "order": 17,
+    "product": 3,
+    "variant": null,
+    "quantity": 10,
+    "price": "8695.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 20,
+  "fields": {
+    "order": 18,
+    "product": 3,
+    "variant": null,
+    "quantity": 2,
+    "price": "8695.00"
+  }
+}
+]
